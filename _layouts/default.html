@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 {% include head.html %}
-{% include google_analytics.html %}
+
 
 
   <body>
@@ -13,5 +13,12 @@
       {{ content }}
     </div>
 
+    <script>
+      document.querySelectorAll('a[href^="http"]').forEach(link => {
+        link.setAttribute('target', '_blank');
+        link.setAttribute('rel', 'noopener noreferrer');
+      });
+    </script>
+    
   </body>
 </html>

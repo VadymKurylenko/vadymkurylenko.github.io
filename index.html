@@ -1,38 +1,55 @@
 ---
 layout: default
-title: Home
+title: Vadym Kurylenko
+permalink: /
 ---
 
-<!-- This loops through the paginated posts -->
-<div class="posts">
-  {% for post in paginator.posts %}
-  <div class="post">
-    <h2 class="post-title"><a href="{{ post.url }}">{{ post.title }}</a></h2>
-    <span class="post-date">{{ post.date | date_to_string }}</span>
-    {{ post.excerpt }}
+
+<h1> About me</h1>
+<div class="about-section" style="display: flex; flex-wrap: nowrap; align-items: flex-start; gap: 1em;">
+
+    <!-- Text column -->
+    <div style="flex: 1;">
+      <p>
+        I am a postdoc at 
+        <a href="https://math.ovgu.de/IAG.html">Otto-von-Guericke-Universität Magdeburg</a>, 
+        and my mentor is 
+        <a href="https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast">Benjamin Nill</a>. 
+        We are working on the project 
+        <a href="https://www.combinatorial-synergies.de/projects/?elem=Local-Ehrhart-Theory-and-its-Synergies">Local Ehrhart Theory and its Synergies</a>. It is part of the SPP  
+        <a href="https://www.combinatorial-synergies.de/">Combinatorial Synergies</a>. 
+      </p>
+
+      <!--  
+      <p>
+          My research interests
+      </p>
+
+       -->
+      
+      <h2>Short CV</h2>
+      <ul>
+        <li> Born in Kharkiv, Ukraine, in 1995.</li>
+        <li> Bachelor in physics at Karazin Kharkiv University.</li>
+        <li> Master in  mathematical physics at Universität Hamburg under supervision of   <a href="https://www.professoren.tum.de/alim-murad">Murad Alim</a> </li>
+        <li> PhD in Geometry and Mathematical Physics at SISSA under supervision of <a href = "https://frvillegas.github.io/about/"> Fernando Rodriguez Villegas </a> </li>
+      </ul>
+    
+      <h3>Full CV</h3>
+      <p>
+        You can download my full CV here: 
+        <a href="/assets/files/full_cv.pdf" target="_blank">CV</a>.
+      </p>
+    </div>
+  
+    <!-- Image column -->
+    <img src="/assets/images/pic.jpg" alt="My Photo" style="width: 250px; margin-left: auto;">
+  
   </div>
-  {% endfor %}
-</div>
-
-<!-- Pagination links -->
-<div class="pagination">
-  {% if paginator.previous_page %}
-    <a class="pagination-item newer" href="{{ paginator.previous_page_path }}">Newer</a>
-  {% else %}
-    <span class="pagination-item newer">Newer</span>
-  {% endif %}
-  {% if paginator.next_page %}
-    <a class="pagination-item older" href="{{ paginator.next_page_path }}">Older</a>
-  {% else %}
-    <span class="pagination-item older">Older</span>
-  {% endif %}
-  <!-- <span class="page_number ">
-    Page: {{ paginator.page }} of {{ paginator.total_pages }}
-  </span> -->
-</div>
-
-
-
-
-
-
+  
+ 
+  
+   
+   
+  </div>
+  

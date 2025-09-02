@@ -1,4 +1,4 @@
-I"�<p><em>A comprehensive guide to the EM algorithm with intuitions, examples, Python implementation, and maths</em></p>
+I"!<p><em>A comprehensive guide to the EM algorithm with intuitions, examples, Python implementation, and maths</em></p>
 
 <p>Yes! Let’s talk about the expectation-maximization algorithm (EM, for short). If you are in the data science “bubble”, you’ve probably come across EM at some point in time and wondered: What is EM, and do I need to know it?</p>
 
@@ -59,17 +59,17 @@
 
 <p>At this point, you must be thinking (I hope): All these examples are wonderful, but what is really EM? Let’s dive into it.</p>
 
-<p>EM algorithm is an iterative optimization method that finds the maximum likelihood estimate (MLE) of parameters in problems where hidden/missing/latent variables are present. It was first introduced in its full generality by Dempster, Laird, and Rubin (1977) in their famous paper<sup id="fnref:Dempster"><a href="#fn:Dempster" class="footnote">1</a></sup> (currently 62k citations). It has been widely used for its easy implementation, numerical stability, and robust empirical performance.</p>
+<p>EM algorithm is an iterative optimization method that finds the maximum likelihood estimate (MLE) of parameters in problems where hidden/missing/latent variables are present. It was first introduced in its full generality by Dempster, Laird, and Rubin (1977) in their famous paper<sup id="fnref:Dempster"><a href="#fn:Dempster" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> (currently 62k citations). It has been widely used for its easy implementation, numerical stability, and robust empirical performance.</p>
 
 <p>Let’s set up the EM for a general problem and introduce some notations. Suppose that $Y$ are our observed variables, $X$ are hidden variables, and we say that the pair $(X, Y)$ is the complete data. We also denote any unknown parameter of interest as $\theta \in \Theta$. The objective of most parameter estimation problems is to find the most probable $\theta$ given our model and data, i.e.,</p>
 
-<script type="math/tex; mode=display">\begin{equation}
+\[\begin{equation}
 \theta = \arg\max_{\theta \in \Theta} p_\theta(\mathbf{y}) \,,
-\end{equation}</script>
+\end{equation}\]
 
 <p>where  $p_\theta(\mathbf{y})$ is the incomplete-data likelihood. Using the law of <a href="https://en.wikipedia.org/wiki/Law_of_total_probability">total probability</a>, we can also express the incomplete-data likelihood as</p>
 
-<script type="math/tex; mode=display">p_\theta(\mathbf{y}) = \int p_\theta(\mathbf{x}, \mathbf{y}) d\mathbf{x} \,,</script>
+\[p_\theta(\mathbf{y}) = \int p_\theta(\mathbf{x}, \mathbf{y}) d\mathbf{x} \,,\]
 
 <p>where $p_\theta(\mathbf{x}, \mathbf{y})$ is known as the complete-data likelihood.</p>
 
@@ -82,20 +82,20 @@
     <p><strong>E-step</strong>: define 
 $Q(\theta | \theta^{(n)})$ as the conditional expectation of the complete-data log-likelihood w.r.t. the hidden variables, given observed data and current parameter estimate, i.e.,</p>
 
-    <script type="math/tex; mode=display">\begin{align}
+\[\begin{align}
 \label{eqn:e_step}
 Q(\theta | \theta^{(n)}) = \mathbb{E}_{X|\mathbf{y}, \theta^{(n)}}\left[\ln p_\theta(\mathbf{x}, \mathbf{y})\right] \,.
-\end{align}</script>
+\end{align}\]
   </li>
   <li>
     <p><strong>M-step</strong>: find a new $\theta$ that maximizes the above expectation and set it to $\theta^{(n+1)}$, i.e.,</p>
   </li>
 </ul>
 
-<script type="math/tex; mode=display">\begin{align}
+\[\begin{align}
   \label{eqn:m_step}
   \theta^{(n+1)} = \arg\max_{\theta \in \Theta} Q(\theta | \theta^{(n)}) \,.
-  \end{align}</script>
+  \end{align}\]
 
 <p>The above definitions might seem hard-to-grasp at first. Some intuitive explanation might help:</p>
 
@@ -126,24 +126,24 @@ Q(\theta | \theta^{(n)}) = \mathbb{E}_{X|\mathbf{y}, \theta^{(n)}}\left[\ln p_\t
 
 <p>Are you able to see the different underlying distributions? Apparently, these data come from more than one distribution. Thus a single normal distribution would not be appropriate, and we use a mixture approach. In general, GMM-based clustering is the task of clustering $y_1, \dots, y_n$ data points into $k$ groups. We let</p>
 
-<script type="math/tex; mode=display">x_{ik}=\left\{\begin{array}{l}
+\[x_{ik}=\left\{\begin{array}{l}
 1 \quad \text{if $y_i$ is in group $k$}\\
 0 \quad \text{otherwise}
-\end{array}\right.</script>
+\end{array}\right.\]
 
 <p>Thus, $x_i$ is the one-hot coding of data $y_i$, e.g., $x_i = [0, 0, 1]$ if $k = 3$ and $y_i$ is from group 3. In this case, the collection of data points $\mathbf{y}$ is the incomplete data, and $(\mathbf{x}, \mathbf{y})$ is the augmented complete data. We further assume that each group follows a normal distribution, i.e.,</p>
 
-<script type="math/tex; mode=display">y_i \mid x_{ik} = 1 \sim N(\mu_k, \Sigma_k) \,.</script>
+\[y_i \mid x_{ik} = 1 \sim N(\mu_k, \Sigma_k) \,.\]
 
 <p>Following the usual mixture Gaussian model set up, a new point is generated from the $k$th group with probability $P(x_{ik} = 1) = w_k$ and $\sum_{i=1}^{k} w_i = 1$. Suppose we are only working with the incomplete data $\mathbf{y}$. The likelihood of one data point under a GMM is</p>
 
-<script type="math/tex; mode=display">\begin{align} p(y_i) = \sum_{j=1}^k w_j \phi(y_i; \mu_j, \Sigma_j) \,, \end{align}</script>
+\[\begin{align} p(y_i) = \sum_{j=1}^k w_j \phi(y_i; \mu_j, \Sigma_j) \,, \end{align}\]
 
 <p>where $\phi(\cdot; \mu, \Sigma)$ is the PDF of a normal distribution with mean $\mu$ and variance-covariance $\Sigma$. The total log-likelihood of $n$ points is</p>
 
-<script type="math/tex; mode=display">\begin{align}
+\[\begin{align}
 \ln p(\mathbf{y}) = \sum_{i=1}^{n} \ln \sum_{j=1}^k w_j \phi(y_i; \mu_j, \Sigma_j) \,.
-\end{align}</script>
+\end{align}\]
 
 <p>In our problem, we are trying to estimate three groups of parameters: the group mixing probabilities ($\mathbf{w}$) and each distribution’s mean and covariance matrix ($\boldsymbol{\mu}, \boldsymbol{\Sigma}$). The usual approach to parameter estimation is by maximizing the above total log-likelihood function w.r.t. each parameter (MLE). However, this is difficult to do due to the summation inside the $\log$ term.</p>
 
@@ -151,22 +151,22 @@ Q(\theta | \theta^{(n)}) = \mathbb{E}_{X|\mathbf{y}, \theta^{(n)}}\left[\ln p_\t
 
 <p>Let’s use the EM approach instead! Remember that we first need to define the Q function in the E-step, which is the conditional expectation of the complete-data log-likelihood. Since $(\mathbf{x}, \mathbf{y})$ is the complete data, the corresponding likelihood of one data point is</p>
 
-<script type="math/tex; mode=display">p(x_i, y_i) = \Pi_{j=1}^k \{w_j \phi(y_i; \mu_j, \Sigma_j)\}^{x_{ij}} \,,</script>
+\[p(x_i, y_i) = \Pi_{j=1}^k \{w_j \phi(y_i; \mu_j, \Sigma_j)\}^{x_{ij}} \,,\]
 
 <p>and only the term with $x_{ij} = 1$ is active. Hence, our total complete-data log-likelihood is</p>
 
-<script type="math/tex; mode=display">\ln p(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{n}\sum_{j=1}^k x_{ij}\ln \{w_j \phi(y_i; \mu_j, \Sigma_j)\} \,.</script>
+\[\ln p(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{n}\sum_{j=1}^k x_{ij}\ln \{w_j \phi(y_i; \mu_j, \Sigma_j)\} \,.\]
 
 <p>Denote $\theta$ as the collection of unknown parameters $(\mathbf{w}, \boldsymbol{\mu}, \boldsymbol{\Sigma})$, and $\theta^{(n)}$ as the estimates from the last iteration. Following the E-step formula in ($\ref{eqn:e_step}$), we obtain the Q function as</p>
 
-<script type="math/tex; mode=display">\begin{align}
+\[\begin{align}
 \label{eqn:gmm_e_step}
 Q(\theta | \theta^{(n)}) = \sum_{i=1}^{n}\sum_{j=1}^k z_{ij}^{(n)} \ln \{w_j \phi(y_i; \mu_j, \Sigma_j)\}  
-\end{align}</script>
+\end{align}\]
 
 <p>where</p>
 
-<script type="math/tex; mode=display">z_{ij}^{(n)} = \frac{\phi(y_i; \mu_j^{(n)}, \Sigma_j^{(n)}) w_j^{(n)}}{\sum_{l=1}^k \phi(y_i; \mu_l^{(n)}, \Sigma_l^{(n)}) w_l^{(n)}} \,.</script>
+\[z_{ij}^{(n)} = \frac{\phi(y_i; \mu_j^{(n)}, \Sigma_j^{(n)}) w_j^{(n)}}{\sum_{l=1}^k \phi(y_i; \mu_l^{(n)}, \Sigma_l^{(n)}) w_l^{(n)}} \,.\]
 
 <p>Here $z_{ij}^{(n)}$ is the probability that data $y_i$ is in class $j$ with the current parameter estimates $\theta^{(n)}$. This probability is also called responsibility in some texts. It means the responsibility of each class to this data point. It’s also a constant given the observed data and $\theta^{(n)}$.</p>
 
@@ -197,16 +197,15 @@ $$
 
 <p>Recall that the EM algorithm proceeds by iterating between the E-step and the M-step. We have obtained the latest iteration’s Q function in the E-step above. Next, we move on to the M-step and find a new $\theta$ that maximizes the Q function in ($\ref{eqn:gmm_e_step}$), i.e., we find</p>
 
-<script type="math/tex; mode=display">\theta^{(n+1)} = \arg\max_{\theta \in \Theta} Q(\theta | \theta^{(n)}) \,.</script>
+\[\theta^{(n+1)} = \arg\max_{\theta \in \Theta} Q(\theta | \theta^{(n)}) \,.\]
 
 <p>A closer look at the obtained Q function reveals that it’s actually a weighted normal distribution MLE problem. That means, the new $\theta$ has closed-form formulas and can be verified easily using differentiation:</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align*}
-w_j^{(n+1)} &= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} && \text{New mixing probabilities}\\
-\mu_j^{(n+1)} &= \frac{\sum_{i=1}^{n} z_{ij}^{(n)} y_{i}}{\sum_{i=1}^{n} z_{ij}^{(n)}} &&\text{New means}\\
-\Sigma_j^{(n+1)} &= \frac{\sum_{i=1}^{n} z_{ij}^{(n)} (y_{i} - \mu_j^{(n+1)})(y_i - \mu_j^{(n+1)})^T}{\sum_{i}^{n} z_{ij}^{(n)}} &&\text{New var-cov matrices}
-\end{align*} %]]></script>
+\[\begin{align*}
+w_j^{(n+1)} &amp;= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} &amp;&amp; \text{New mixing probabilities}\\
+\mu_j^{(n+1)} &amp;= \frac{\sum_{i=1}^{n} z_{ij}^{(n)} y_{i}}{\sum_{i=1}^{n} z_{ij}^{(n)}} &amp;&amp;\text{New means}\\
+\Sigma_j^{(n+1)} &amp;= \frac{\sum_{i=1}^{n} z_{ij}^{(n)} (y_{i} - \mu_j^{(n+1)})(y_i - \mu_j^{(n+1)})^T}{\sum_{i}^{n} z_{ij}^{(n)}} &amp;&amp;\text{New var-cov matrices}
+\end{align*}\]
 
 <p>for $j = 1, \dots, k$.</p>
 
@@ -223,7 +222,7 @@ w_j^{(n+1)} &= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} && \text{New mixing proba
   <summary>Click here for the GMM-EM implementation, credit to <a href="http://people.duke.edu/~ccc14/sta-663-2016/14_ExpectationMaximization.html#">Cliburn Chan</a>:</summary>
 <div>
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">def</span> <span class="nf">em_gmm_vect</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pis</span><span class="p">,</span> <span class="n">mus</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
-    <span class="s">"""
+    <span class="sh">"""</span><span class="s">
     EM algorithm implementation for solving Gaussian mixture model inference problem.
 
     Parameter:
@@ -235,44 +234,44 @@ w_j^{(n+1)} &= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} && \text{New mixing proba
     Return:
     ll_new: maximum log-likelihood found
     pis, mus, sigmas: parameter results
-    """</span>
+    </span><span class="sh">"""</span>
     
-    <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">xs</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pis</span><span class="p">)</span>
+    <span class="n">n</span><span class="p">,</span> <span class="n">p</span> <span class="o">=</span> <span class="n">xs</span><span class="p">.</span><span class="n">shape</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nf">len</span><span class="p">(</span><span class="n">pis</span><span class="p">)</span>
     
     <span class="n">ll_old</span> <span class="o">=</span> <span class="mi">0</span>
     
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">max_iter</span><span class="p">):</span>
         <span class="n">ll_new</span> <span class="o">=</span> <span class="mi">0</span>
     
         <span class="c1"># E-step
-</span>        <span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
-            <span class="n">ws</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pis</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="n">mvn</span><span class="p">(</span><span class="n">mus</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">sigmas</span><span class="p">[</span><span class="n">j</span><span class="p">])</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
-        <span class="n">ws</span> <span class="o">/=</span> <span class="n">ws</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span>        <span class="n">ws</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+            <span class="n">ws</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">pis</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">*</span> <span class="nf">mvn</span><span class="p">(</span><span class="n">mus</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">sigmas</span><span class="p">[</span><span class="n">j</span><span class="p">]).</span><span class="nf">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+        <span class="n">ws</span> <span class="o">/=</span> <span class="n">ws</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     
         <span class="c1"># M-step
-</span>        <span class="n">pis</span> <span class="o">=</span> <span class="n">ws</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span>        <span class="n">pis</span> <span class="o">=</span> <span class="n">ws</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">pis</span> <span class="o">/=</span> <span class="n">n</span>
         
-        <span class="n">pis_hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pis</span><span class="p">)</span>
+        <span class="n">pis_hist</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">pis</span><span class="p">)</span>
     
-        <span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
-        <span class="n">mus</span> <span class="o">/=</span> <span class="n">ws</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)[:,</span> <span class="bp">None</span><span class="p">]</span>
+        <span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">dot</span><span class="p">(</span><span class="n">ws</span><span class="p">,</span> <span class="n">xs</span><span class="p">)</span>
+        <span class="n">mus</span> <span class="o">/=</span> <span class="n">ws</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">)[:,</span> <span class="bp">None</span><span class="p">]</span>
     
-        <span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
+        <span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">k</span><span class="p">):</span>
             <span class="n">ys</span> <span class="o">=</span> <span class="n">xs</span> <span class="o">-</span> <span class="n">mus</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="n">sigmas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ws</span><span class="p">[</span><span class="n">j</span><span class="p">,:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="n">mm</span><span class="p">(</span><span class="n">ys</span><span class="p">[:,:,</span><span class="bp">None</span><span class="p">],</span> <span class="n">ys</span><span class="p">[:,</span><span class="bp">None</span><span class="p">,:]))</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">sigmas</span> <span class="o">/=</span> <span class="n">ws</span><span class="o">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span>
+            <span class="n">sigmas</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">ws</span><span class="p">[</span><span class="n">j</span><span class="p">,:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span> <span class="o">*</span> <span class="nf">mm</span><span class="p">(</span><span class="n">ys</span><span class="p">[:,:,</span><span class="bp">None</span><span class="p">],</span> <span class="n">ys</span><span class="p">[:,</span><span class="bp">None</span><span class="p">,:])).</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">sigmas</span> <span class="o">/=</span> <span class="n">ws</span><span class="p">.</span><span class="nf">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)[:,</span><span class="bp">None</span><span class="p">,</span><span class="bp">None</span><span class="p">]</span>
     
         <span class="c1"># update complete log likelihood
 </span>        <span class="n">ll_new</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pis</span><span class="p">,</span> <span class="n">mus</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">):</span>
-            <span class="n">ll_new</span> <span class="o">+=</span> <span class="n">pi</span><span class="o">*</span><span class="n">mvn</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
-        <span class="n">ll_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">ll_new</span><span class="p">)</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">pis</span><span class="p">,</span> <span class="n">mus</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">):</span>
+            <span class="n">ll_new</span> <span class="o">+=</span> <span class="n">pi</span><span class="o">*</span><span class="nf">mvn</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">).</span><span class="nf">pdf</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+        <span class="n">ll_new</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">ll_new</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span>
     
-        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="nb">abs</span><span class="p">(</span><span class="n">ll_new</span> <span class="o">-</span> <span class="n">ll_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">ll_new</span> <span class="o">-</span> <span class="n">ll_old</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">tol</span><span class="p">:</span>
             <span class="k">break</span>
         <span class="n">ll_old</span> <span class="o">=</span> <span class="n">ll_new</span>
     
@@ -284,66 +283,66 @@ w_j^{(n+1)} &= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} && \text{New mixing proba
 <details>
 <summary>Click here for the script to run the above experiment:</summary>
 <div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span> <span class="k">as</span> <span class="n">mvn</span>
-<span class="kn">from</span> <span class="nn">numpy.core.umath_tests</span> <span class="kn">import</span> <span class="n">matrix_multiply</span> <span class="k">as</span> <span class="n">mm</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="n">scipy.stats</span> <span class="kn">import</span> <span class="n">multivariate_normal</span> <span class="k">as</span> <span class="n">mvn</span>
+<span class="kn">from</span> <span class="n">numpy.core.umath_tests</span> <span class="kn">import</span> <span class="n">matrix_multiply</span> <span class="k">as</span> <span class="n">mm</span>
 
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
 
 <span class="c1"># create data set
 </span><span class="n">n</span> <span class="o">=</span> <span class="mi">400</span>
-<span class="n">_mus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span><span class="mf">3.5</span><span class="p">],</span> 
+<span class="n">_mus</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span><span class="mf">3.5</span><span class="p">],</span> 
                  <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> 
                  <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
                  <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
-<span class="n">_sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[[</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> 
+<span class="n">_sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([[[</span><span class="mi">3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]],</span> 
                     <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="mf">0.2</span><span class="p">,</span><span class="mi">2</span><span class="p">]],</span> 
                     <span class="p">[[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">4</span><span class="p">]],</span> 
-                    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mf">.6</span><span class="p">],[</span><span class="mf">.6</span><span class="p">,</span><span class="mi">1</span><span class="p">]]])</span>
+                    <span class="p">[[</span><span class="mi">1</span><span class="p">,.</span><span class="mi">6</span><span class="p">],[.</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">]]])</span>
 
-<span class="n">_pis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.25</span><span class="p">]</span><span class="o">*</span><span class="n">_mus</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="n">n</span><span class="p">))</span>
-                    <span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">_pis</span><span class="p">,</span> <span class="n">_mus</span><span class="p">,</span> <span class="n">_sigmas</span><span class="p">)])</span>
+<span class="n">_pis</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mf">0.25</span><span class="p">]</span><span class="o">*</span><span class="n">_mus</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">xs</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">multivariate_normal</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="nf">int</span><span class="p">(</span><span class="n">pi</span><span class="o">*</span><span class="n">n</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">_pis</span><span class="p">,</span> <span class="n">_mus</span><span class="p">,</span> <span class="n">_sigmas</span><span class="p">)])</span>
 
 <span class="c1"># visualize data without labels
-</span><span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s">'seaborn-talk'</span><span class="p">):</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span><span class="k">with</span> <span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">context</span><span class="p">(</span><span class="sh">'</span><span class="s">seaborn-talk</span><span class="sh">'</span><span class="p">):</span>
+    <span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
     
 <span class="c1"># initial guesses for parameters
-</span><span class="n">pis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">pis</span> <span class="o">/=</span> <span class="n">pis</span><span class="o">.</span><span class="nb">sum</span><span class="p">()</span>  <span class="c1"># normalize
-</span><span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
-<span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+</span><span class="n">pis</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">random</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">pis</span> <span class="o">/=</span> <span class="n">pis</span><span class="p">.</span><span class="nf">sum</span><span class="p">()</span>  <span class="c1"># normalize
+</span><span class="n">mus</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">random</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">sigmas</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="nf">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
 
 <span class="c1"># run EM
 # remember to include em_gmm_vect function
-</span><span class="n">ll2</span><span class="p">,</span> <span class="n">pis2</span><span class="p">,</span> <span class="n">mus2</span><span class="p">,</span> <span class="n">sigmas2</span> <span class="o">=</span> <span class="n">em_gmm_vect</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pis</span><span class="p">,</span> <span class="n">mus</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">)</span>
+</span><span class="n">ll2</span><span class="p">,</span> <span class="n">pis2</span><span class="p">,</span> <span class="n">mus2</span><span class="p">,</span> <span class="n">sigmas2</span> <span class="o">=</span> <span class="nf">em_gmm_vect</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span> <span class="n">pis</span><span class="p">,</span> <span class="n">mus</span><span class="p">,</span> <span class="n">sigmas</span><span class="p">)</span>
 
 <span class="c1"># visualize results
 </span><span class="n">intervals</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="n">intervals</span><span class="p">)</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
-<span class="n">_ys</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">X</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">Y</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span><span class="o">.</span><span class="n">T</span>
+<span class="n">ys</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="n">intervals</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">meshgrid</span><span class="p">(</span><span class="n">ys</span><span class="p">,</span> <span class="n">ys</span><span class="p">)</span>
+<span class="n">_ys</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">vstack</span><span class="p">([</span><span class="n">X</span><span class="p">.</span><span class="nf">ravel</span><span class="p">(),</span> <span class="n">Y</span><span class="p">.</span><span class="nf">ravel</span><span class="p">()]).</span><span class="n">T</span>
 
-<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">_ys</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">pis2</span><span class="p">,</span> <span class="n">mus2</span><span class="p">,</span> <span class="n">sigmas2</span><span class="p">):</span>
-    <span class="n">z</span> <span class="o">+=</span> <span class="n">pi</span><span class="o">*</span><span class="n">mvn</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span><span class="o">.</span><span class="n">pdf</span><span class="p">(</span><span class="n">_ys</span><span class="p">)</span>
-<span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">intervals</span><span class="p">,</span> <span class="n">intervals</span><span class="p">))</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">zeros</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">_ys</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">pi</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span> <span class="ow">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">pis2</span><span class="p">,</span> <span class="n">mus2</span><span class="p">,</span> <span class="n">sigmas2</span><span class="p">):</span>
+    <span class="n">z</span> <span class="o">+=</span> <span class="n">pi</span><span class="o">*</span><span class="nf">mvn</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="p">).</span><span class="nf">pdf</span><span class="p">(</span><span class="n">_ys</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">z</span><span class="p">.</span><span class="nf">reshape</span><span class="p">((</span><span class="n">intervals</span><span class="p">,</span> <span class="n">intervals</span><span class="p">))</span>
 
-<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s">'seaborn-talk'</span><span class="p">):</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span>
-    <span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">300</span><span class="p">:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="mi">300</span><span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'1'</span><span class="p">,</span> <span class="s">'2'</span><span class="p">,</span> <span class="s">'3'</span><span class="p">,</span> <span class="s">'4'</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
-    <span class="n">ax</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="s">'equal'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">context</span><span class="p">(</span><span class="sh">'</span><span class="s">seaborn-talk</span><span class="sh">'</span><span class="p">):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+    <span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[:</span><span class="mi">100</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="mi">100</span><span class="p">:</span><span class="mi">200</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="mi">200</span><span class="p">:</span><span class="mi">300</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">sns</span><span class="p">.</span><span class="nf">scatterplot</span><span class="p">(</span><span class="n">xs</span><span class="p">[</span><span class="mi">300</span><span class="p">:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">xs</span><span class="p">[</span><span class="mi">300</span><span class="p">:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="p">.</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">([</span><span class="sh">'</span><span class="s">1</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">2</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">3</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">4</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">axis</span><span class="p">([</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">.</span><span class="n">axes</span><span class="p">.</span><span class="nf">set_aspect</span><span class="p">(</span><span class="sh">'</span><span class="s">equal</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
 </code></pre></div>    </div>
   </div>
 </details>
@@ -379,7 +378,7 @@ w_j^{(n+1)} &= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} && \text{New mixing proba
 
 <p>There’s another important modeling principle that we need to use: the Hardy–Weinberg principle, which says that the genotype frequency is the product of the corresponding allele frequency or double that when the two alleles are different. That is, we can expect the genotype frequencies of $n_{\mathrm{CC}}, n_{\mathrm{CI}}, n_{\mathrm{CT}}, n_{\mathrm{II}}, n_{\mathrm{IT}}, n_{\mathrm{TT}}$ to be</p>
 
-<script type="math/tex; mode=display">p_{\mathrm{C}}^2, 2p_{\mathrm{C}}p_{\mathrm{I}}, 2p_{\mathrm{C}}p_{\mathrm{T}}, p_{\mathrm{I}}^2, 2p_{\mathrm{I}}p_{\mathrm{T}}, p_{\mathrm{T}}^2 \,.</script>
+\[p_{\mathrm{C}}^2, 2p_{\mathrm{C}}p_{\mathrm{I}}, 2p_{\mathrm{C}}p_{\mathrm{T}}, p_{\mathrm{I}}^2, 2p_{\mathrm{I}}p_{\mathrm{T}}, p_{\mathrm{T}}^2 \,.\]
 
 <p>Good! Now we are ready to plug in the EM framework. What’s the first step?</p>
 
@@ -387,35 +386,32 @@ w_j^{(n+1)} &= \frac{1}{n} \sum_{i=1}^{n} z_{ij}^{(n)} && \text{New mixing proba
 <p>Just like the GMM case, we first need to figure out the complete-data likelihood. Notice that this is actually a multinomial distribution problem. We have a population of moths, the chance of capturing a moth of genotype $\mathrm{CC}$ is $p_{\mathrm{C}}^2$, similarly for the other genotypes. Therefore, the complete-data 
 likelihood is just the multinomial <a href="https://en.wikipedia.org/wiki/Multinomial_distribution#Probability_mass_function">distribution PDF</a>:</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align*}
-p(\mathbf{x}, \mathbf{y}) &= \mathrm{Pr}(N_{\mathrm{CC}} = n_{\mathrm{CC}}, N_{\mathrm{CI}} = n_{\mathrm{CI}}, \dots, N_{\mathrm{TT}} = n_{\mathrm{TT}}) \\
-&= \left(\begin{array}{cccc}
-&n&& \\
-n_{\mathrm{CC}} & n_{\mathrm{CI}} & \dots & n_{\mathrm{TT}}
+\[\begin{align*}
+p(\mathbf{x}, \mathbf{y}) &amp;= \mathrm{Pr}(N_{\mathrm{CC}} = n_{\mathrm{CC}}, N_{\mathrm{CI}} = n_{\mathrm{CI}}, \dots, N_{\mathrm{TT}} = n_{\mathrm{TT}}) \\
+&amp;= \left(\begin{array}{cccc}
+&amp;n&amp;&amp; \\
+n_{\mathrm{CC}} &amp; n_{\mathrm{CI}} &amp; \dots &amp; n_{\mathrm{TT}}
 \end{array} \right) (p_{\mathrm{C}}^2)^{n_{\mathrm{CC}}} (2p_\mathrm{C} p_\mathrm{I})^{n_{\mathrm{CI}}} \dots (p_{\mathrm{T}}^2)^{n_{\mathrm{TT}}} \,.
-\end{align*} %]]></script>
+\end{align*}\]
 
 <p>And the complete-data log-likelihood can be written in the following decomposed form:</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-\ln p_{\theta}(\mathbf{x}, \mathbf{y}) &= n_{\mathrm{CC}} \log \left\{p_{\mathrm{C}}^{2}\right\}+n_{\mathrm{CI}} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{I}}\right\}+n_{\mathrm{CT}} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{T}}\right\} \\
-&+n_{\mathrm{II}} \log \left\{p_{\mathrm{I}}^{2}\right\}+n_{\mathrm{IT}} \log \left\{2 p_{\mathrm{I}} p_{\mathrm{T}}\right\}+n_{\mathrm{TT}} \log \left\{p_{\mathrm{T}}^{2}\right\} \\
-&+\log \left(\begin{array}{llllll}
-& & n & & \\
-n_{\mathrm{CC}} & n_{\mathrm{CI}} & n_{\mathrm{CT}} & n_{\mathrm{II}} & n_{\mathrm{IT}} & n_{\mathrm{TT}}
+\[\begin{aligned}
+\ln p_{\theta}(\mathbf{x}, \mathbf{y}) &amp;= n_{\mathrm{CC}} \log \left\{p_{\mathrm{C}}^{2}\right\}+n_{\mathrm{CI}} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{I}}\right\}+n_{\mathrm{CT}} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{T}}\right\} \\
+&amp;+n_{\mathrm{II}} \log \left\{p_{\mathrm{I}}^{2}\right\}+n_{\mathrm{IT}} \log \left\{2 p_{\mathrm{I}} p_{\mathrm{T}}\right\}+n_{\mathrm{TT}} \log \left\{p_{\mathrm{T}}^{2}\right\} \\
+&amp;+\log \left(\begin{array}{llllll}
+&amp; &amp; n &amp; &amp; \\
+n_{\mathrm{CC}} &amp; n_{\mathrm{CI}} &amp; n_{\mathrm{CT}} &amp; n_{\mathrm{II}} &amp; n_{\mathrm{IT}} &amp; n_{\mathrm{TT}}
 \end{array}\right)
-\end{aligned} %]]></script>
+\end{aligned}\]
 
 <p>Remember that the E-step is taking a conditional expectation of the above likelihood w.r.t. the unobserved data $Y$, given the latest iteration’s parameter estimates $\theta^{(n)}$.  The Q function is found to be</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{aligned}
-Q\left(\theta \mid \theta^{(n)}\right) &= n_{\mathrm{CC}}^{(n)} \log \left\{p_{\mathrm{C}}^{2}\right\}+n_{\mathrm{CI}}^{(n)} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{I}}\right\} \\
-&+n_{\mathrm{CT}}^{(n)} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{T}}\right\}+n_{\mathrm{II}}^{(n)} \log \left\{p_{\mathrm{I}}^{2}\right\} \\
-&+n_{\mathrm{IT}}^{(n)} \log \left\{2 p_{\mathrm{I}} p_{\mathrm{T}}\right\}+n_{\mathrm{TT}} \log \left\{p_{\mathrm{T}}^{2}\right\}+k\left(n_{\mathrm{C}}, n_{\mathrm{I}}, n_{\mathrm{T}}, \theta^{(n)}\right) \,,
-\end{aligned} %]]></script>
+\[\begin{aligned}
+Q\left(\theta \mid \theta^{(n)}\right) &amp;= n_{\mathrm{CC}}^{(n)} \log \left\{p_{\mathrm{C}}^{2}\right\}+n_{\mathrm{CI}}^{(n)} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{I}}\right\} \\
+&amp;+n_{\mathrm{CT}}^{(n)} \log \left\{2 p_{\mathrm{C}} p_{\mathrm{T}}\right\}+n_{\mathrm{II}}^{(n)} \log \left\{p_{\mathrm{I}}^{2}\right\} \\
+&amp;+n_{\mathrm{IT}}^{(n)} \log \left\{2 p_{\mathrm{I}} p_{\mathrm{T}}\right\}+n_{\mathrm{TT}} \log \left\{p_{\mathrm{T}}^{2}\right\}+k\left(n_{\mathrm{C}}, n_{\mathrm{I}}, n_{\mathrm{T}}, \theta^{(n)}\right) \,,
+\end{aligned}\]
 
 <p>where $n_{\mathrm{CC}}^{(n)}$ is expected number of $\mathrm{CC}$ type moth given the current allele frequency estimates, and similarly for the other types. $k(\cdot)$ is a function that does not involve $\theta$.</p>
 
@@ -426,14 +422,13 @@ Q\left(\theta \mid \theta^{(n)}\right) &= n_{\mathrm{CC}}^{(n)} \log \left\{p_{\
 
     <p>Therefore, we can obtain the conditional expectation of all phenotype counts by</p>
 
-    <script type="math/tex; mode=display">% <![CDATA[
-\begin{align*}
-n_{\mathrm{CC}}^{(n)} &= n_{\mathrm{Car}} \frac{\left(p_{\mathrm{C}}^{(n)}\right)^{2}}{\left(p_{\mathrm{C}}^{(n)}\right)^{2}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
-n_{\mathrm{CI}}^{(n)} &=n_{\mathrm{Car}} \frac{2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}}{\left(p_{\mathrm{C}}^{(n)}\right)^{2}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
-n_{\mathrm{CT}}^{(n)} &= n_{\mathrm{Car}} \frac{2  p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}}{\left(p_{\mathrm{C}}^{(n)}\right)^{2}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
-n_{\mathrm{II}}^{(n)} &= n_{\mathrm{Ins}} \frac{\left(p_{\mathrm{I}}^{(n)}\right)^{2}}{\left(p_{\mathrm{I}}^{(n)}\right)^{2}+2 p_{\mathrm{I}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
-n_{\mathrm{IT}}^{(n)} &= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathrm{T}}^{(n)}}{\left(p_{\mathrm{I}}^{(n)}\right)^{2}+2 p_{\mathrm{I}}^{(n)} p_{\mathrm{T}}^{(n)}} \,.
-\end{align*} %]]></script>
+\[\begin{align*}
+n_{\mathrm{CC}}^{(n)} &amp;= n_{\mathrm{Car}} \frac{\left(p_{\mathrm{C}}^{(n)}\right)^{2}}{\left(p_{\mathrm{C}}^{(n)}\right)^{2}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
+n_{\mathrm{CI}}^{(n)} &amp;=n_{\mathrm{Car}} \frac{2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}}{\left(p_{\mathrm{C}}^{(n)}\right)^{2}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
+n_{\mathrm{CT}}^{(n)} &amp;= n_{\mathrm{Car}} \frac{2  p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}}{\left(p_{\mathrm{C}}^{(n)}\right)^{2}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{I}}^{(n)}+2 p_{\mathrm{C}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
+n_{\mathrm{II}}^{(n)} &amp;= n_{\mathrm{Ins}} \frac{\left(p_{\mathrm{I}}^{(n)}\right)^{2}}{\left(p_{\mathrm{I}}^{(n)}\right)^{2}+2 p_{\mathrm{I}}^{(n)} p_{\mathrm{T}}^{(n)}} \\
+n_{\mathrm{IT}}^{(n)} &amp;= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathrm{T}}^{(n)}}{\left(p_{\mathrm{I}}^{(n)}\right)^{2}+2 p_{\mathrm{I}}^{(n)} p_{\mathrm{T}}^{(n)}} \,.
+\end{align*}\]
 
     <p>And we know $n_{\mathrm{TT}} = n_{\mathrm{Typ}}$.</p>
   </div>
@@ -443,12 +438,11 @@ n_{\mathrm{IT}}^{(n)} &= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathr
 
 <p>Since we obtained the expected number of each phenotype, e.g. $n_{\mathrm{CC}}^{(n)}, n_{\mathrm{CI}}^{(n)}$, estimating the allele frequencies is easy. Intuitively, the frequency of allele $\mathrm{C}$ is calculated as the ratio between the number of allele $\mathrm{C}$ present in the population and the total number of alleles. This works for the other alleles as well. Therefore, in the M-step, we obtain</p>
 
-<script type="math/tex; mode=display">% <![CDATA[
-\begin{align}
-    p_{\mathrm{C}}^{(n+1)} &= \frac{2 n_{\mathrm{CC}}^{(n)} + n_{\mathrm{CI}}^{(n)} + n_{\mathrm{CT}}^{(n)}}{2n} \\
-    p_{\mathrm{I}}^{(n+1)} &= \frac{2 n_{\mathrm{II}}^{(n)} + n_{\mathrm{IT}}^{(n)} + n_{\mathrm{CI}}^{(n)}}{2n} \\
-    p_{\mathrm{T}}^{(n+1)} &= \frac{2 n_{\mathrm{TT}}^{(n)} + n_{\mathrm{IT}}^{(n)} + n_{\mathrm{CT}}^{(n)}}{2n} \,.
-\end{align} %]]></script>
+\[\begin{align}
+    p_{\mathrm{C}}^{(n+1)} &amp;= \frac{2 n_{\mathrm{CC}}^{(n)} + n_{\mathrm{CI}}^{(n)} + n_{\mathrm{CT}}^{(n)}}{2n} \\
+    p_{\mathrm{I}}^{(n+1)} &amp;= \frac{2 n_{\mathrm{II}}^{(n)} + n_{\mathrm{IT}}^{(n)} + n_{\mathrm{CI}}^{(n)}}{2n} \\
+    p_{\mathrm{T}}^{(n+1)} &amp;= \frac{2 n_{\mathrm{TT}}^{(n)} + n_{\mathrm{IT}}^{(n)} + n_{\mathrm{CT}}^{(n)}}{2n} \,.
+\end{align}\]
 
 <p>In fact, we could obtain the same M-step formulas by differentiating the Q function and setting them to zero (usual optimization routine).</p>
 
@@ -462,7 +456,7 @@ n_{\mathrm{IT}}^{(n)} &= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathr
 <details>
 <summary>Click here for the script to run the above experiment:</summary>
 <div>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 <span class="k">def</span> <span class="nf">e_step</span><span class="p">(</span><span class="n">n_car</span><span class="p">,</span> <span class="n">n_ins</span><span class="p">,</span> <span class="n">n_typ</span><span class="p">,</span> <span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">):</span>
     
@@ -483,7 +477,7 @@ n_{\mathrm{IT}}^{(n)} &= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathr
     <span class="n">n_IT</span> <span class="o">=</span> <span class="n">n_ins</span> <span class="o">*</span> <span class="n">IT_prob</span><span class="o">/</span><span class="n">I_prob</span>
     <span class="n">n_TT</span> <span class="o">=</span> <span class="n">n_typ</span>
     
-    <span class="k">return</span> <span class="p">(</span><span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span><span class="p">)</span>
+    <span class="nf">return </span><span class="p">(</span><span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span><span class="p">)</span>
         
 <span class="k">def</span> <span class="nf">m_step</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span><span class="p">):</span>
     
@@ -491,7 +485,7 @@ n_{\mathrm{IT}}^{(n)} &= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathr
     <span class="n">p_I</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n_II</span> <span class="o">+</span> <span class="n">n_IT</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">)</span>
     <span class="n">p_T</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_C</span> <span class="o">-</span> <span class="n">p_I</span>
     
-    <span class="k">return</span> <span class="p">(</span><span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">)</span>
+    <span class="nf">return </span><span class="p">(</span><span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">)</span>
 
 <span class="c1"># Given observed information
 </span><span class="n">nC</span> <span class="o">=</span> <span class="mi">85</span>
@@ -506,21 +500,21 @@ n_{\mathrm{IT}}^{(n)} &= n_{\mathrm{Ins}}\frac{2  p_{\mathrm{I}}^{(n)} p_{\mathr
 
 <span class="c1"># Record history for visualization
 </span><span class="n">hist</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">])</span>
+<span class="n">hist</span><span class="p">.</span><span class="nf">append</span><span class="p">([</span><span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">])</span>
 
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
     <span class="c1"># E-step
-</span>    <span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span> <span class="o">=</span> <span class="n">e_step</span><span class="p">(</span><span class="n">nC</span><span class="p">,</span> <span class="n">nI</span><span class="p">,</span> <span class="n">nT</span><span class="p">,</span> <span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">)</span>
+</span>    <span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span> <span class="o">=</span> <span class="nf">e_step</span><span class="p">(</span><span class="n">nC</span><span class="p">,</span> <span class="n">nI</span><span class="p">,</span> <span class="n">nT</span><span class="p">,</span> <span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">)</span>
     
     <span class="c1"># M-step
-</span>    <span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span> <span class="o">=</span> <span class="n">m_step</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span><span class="p">)</span>
+</span>    <span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span> <span class="o">=</span> <span class="nf">m_step</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_CC</span><span class="p">,</span> <span class="n">n_CI</span><span class="p">,</span> <span class="n">n_CT</span><span class="p">,</span> <span class="n">n_II</span><span class="p">,</span> <span class="n">n_IT</span><span class="p">,</span> <span class="n">n_TT</span><span class="p">)</span>
     
-    <span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">])</span>
+    <span class="n">hist</span><span class="p">.</span><span class="nf">append</span><span class="p">([</span><span class="n">p_C</span><span class="p">,</span> <span class="n">p_I</span><span class="p">,</span> <span class="n">p_T</span><span class="p">])</span>
 
-<span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s">'seaborn-talk'</span><span class="p">):</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="s">'o--'</span><span class="p">)</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s">'Carbonaria'</span><span class="p">,</span> <span class="s">'Insularia'</span><span class="p">,</span> <span class="s">'Typica'</span><span class="p">])</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">context</span><span class="p">(</span><span class="sh">'</span><span class="s">seaborn-talk</span><span class="sh">'</span><span class="p">):</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="sh">'</span><span class="s">o--</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">([</span><span class="sh">'</span><span class="s">Carbonaria</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Insularia</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Typica</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
 </code></pre></div>    </div>
   </div>
 </details>
@@ -624,10 +618,10 @@ $G(\theta | \theta^{(n)})$ instead of $\ell(\theta)$, we have made use of the in
 <hr />
 <h2 class="no_toc" id="references">References</h2>
 
-<div class="footnotes">
+<div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:Dempster">
-      <p>Dempster, A. P., Laird, N. M., &amp; Rubin, D. B. (1977). Maximum likelihood from incomplete data via the EM algorithm. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, <em>39</em>(1), 1-22. <a href="#fnref:Dempster" class="reversefootnote">&#8617;</a></p>
+      <p>Dempster, A. P., Laird, N. M., &amp; Rubin, D. B. (1977). Maximum likelihood from incomplete data via the EM algorithm. <em>Journal of the Royal Statistical Society: Series B (Methodological)</em>, <em>39</em>(1), 1-22. <a href="#fnref:Dempster" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>

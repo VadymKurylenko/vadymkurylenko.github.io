@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem "jekyll", "~> 4.4"
+
+gem "jekyll-paginate"
+
+gem "jekyll-archives"
+
+gem "jekyll-commonmark-ghpages" 

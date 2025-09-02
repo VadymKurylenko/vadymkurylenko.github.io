@@ -11,30 +11,35 @@
   {% include collecttags.html %}
   {% endif %}
 
-  <title>
+
+  <title>Vadym Kurylenko</title>
+  <!-- <title>
     {% if page.title == "Home" %}
       {{ site.title }} &middot; {{ site.tagline }}
     {% else %}
       {{ page.title }} &middot; {{ site.title }}
     {% endif %}
-  </title>
+  </title> -->
 
   <!-- CSS -->
   <link rel="stylesheet" href="{{ '/' | relative_url }}public/css/poole.css">
   <link rel="stylesheet" href="{{ '/' | relative_url }}public/css/syntax.css">
   <link rel="stylesheet" href="{{ '/' | relative_url }}public/css/hyde.css">
-  <link href="https://fonts.googleapis.com/css?family=East+Sea+Dokdo&display=swap" rel="stylesheet">
+ 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.0/css/all.min.css" rel="stylesheet">
 
 
 
-
   <!-- Icons -->
-  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{{ '/' | relative_url }}public/apple-touch-icon-144-precomposed.png">
-                                 <link rel="shortcut icon" href="{{ '/' | relative_url }}public/favicon.ico">
+  <link rel="shortcut icon" href="{{ '/assets/images/evi.ico' | relative_url }}" type="image/x-icon">
+<link rel="icon" href="{{ '/assets/images/evi.ico' | relative_url }}" type="image/x-icon">
 
-  <!-- RSS -->
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml">
+  
+
+
+
+ 
+
 
   <!-- MathJax -->
   {% include mathjax.html %}
