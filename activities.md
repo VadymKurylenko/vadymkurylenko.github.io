@@ -15,7 +15,7 @@ Just to keep a list
 - New perspectives on discriminants and their applications, Leipzig
 - 6th Graduate student meeting in
 applied algebra and combinatorics, Bologna
-- Combinatorial synergies east, Leipzig.
+- Combinatorial synergies East, Leipzig.
 - Winter school and workshop on polytopes, Osnabrück.
 
 ## 2024
@@ -29,14 +29,14 @@ applied algebra and combinatorics, Berlin
 - Workshop on geometric and algebraic combinatorics, Santander.
 
 ## 2023 
-- Hodge and K-Theory meet combinatorics, Lausanne
+- Hodge and K-theory meet combinatorics, Lausanne
 - 4th Graduate student meeting in
 applied algebra and combinatorics, Stockholm
 - Regional workshop in algebraic geometry, Jena
 
 ## 2022
 
-- School and workshop on Topological recursion, Salento
+- School and workshop on topological recursion, Salento
 
 ## 2020
 
@@ -47,13 +47,13 @@ applied algebra and combinatorics, Stockholm
 - Moduli and stability conditions, Hannover
 - BPS-states, topological recursion, exact WKB, Hamburg
 - VBAC: GIT, wall-crossings and moduli spaces, Sønderborg
-- Complex geometry: a aodern viewpoint, Marseille
+- Complex geometry: a modern viewpoint, Marseille
 
 ## 2018
 
 - Quantum fields, knots, and strings, Warsaw
 - Higgs bundles in mathematics and physics, Hamburg
-- Special Kähler Geometry, Göttingen
+- Special Kähler geometry, Göttingen
 
 ## 2017
 
