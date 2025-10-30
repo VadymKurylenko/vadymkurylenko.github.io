@@ -44,7 +44,16 @@
 
 
 
- 
+  <!-- google analytics-->
+   <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DMTZGSZ14Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DMTZGSZ14Q');
+</script>
 
 
   <!-- MathJax -->
@@ -179,7 +188,7 @@
   </div>
   
  
-  
+   
    
    
   </div>
@@ -193,5 +202,21 @@
       });
     </script>
     
+
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Track all PDF downloads
+        document.querySelectorAll('a[href$=".pdf"]').forEach(link => {
+          link.addEventListener('click', () => {
+            gtag('event', 'download', {
+              'event_category': 'Files',
+              'event_label': link.getAttribute('href')
+            });
+          });
+        });
+      });
+      </script>
+      
   </body>
 </html>

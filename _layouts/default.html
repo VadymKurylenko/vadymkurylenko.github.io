@@ -20,5 +20,21 @@
       });
     </script>
     
+
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Track all PDF downloads
+        document.querySelectorAll('a[href$=".pdf"]').forEach(link => {
+          link.addEventListener('click', () => {
+            gtag('event', 'download', {
+              'event_category': 'Files',
+              'event_label': link.getAttribute('href')
+            });
+          });
+        });
+      });
+      </script>
+      
   </body>
 </html>
