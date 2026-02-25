@@ -7,6 +7,11 @@ permalink: /activities/
 # Workshops and Conferences
 Just to keep a list 
 
+## 2026
+
+- 3rd MPI (Dresden + Leipzig) Day, Leipzig
+- Recent Developments on Lattice Polytopes, Leipzig
+
 ## 2025
 - Ukrainian summer school in combinarotics, Freiberg
 - Modern perspectives on geometry of numbers, Cottbus

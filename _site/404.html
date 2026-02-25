@@ -165,17 +165,17 @@
     
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Track all PDF downloads
         document.querySelectorAll('a[href$=".pdf"]').forEach(link => {
           link.addEventListener('click', () => {
-            gtag('event', 'download', {
-              'event_category': 'Files',
-              'event_label': link.getAttribute('href')
+            gtag('event', 'file_download', {
+              'file_url': link.getAttribute('href'),
+              'file_type': 'pdf'
             });
           });
         });
       });
       </script>
+      
       
   </body>
 </html>
