@@ -23,6 +23,7 @@ permalink: /publications/
 ### Talks
 
 - Thin Lattice Simplices, Freiberg, Ukrainian Summer School in Combinarotics, 2025
+
 - Thin Lattice Simplices, Cottbus, Modern Perspectives on Geometry of Numbers, 2025
 
 - Local Ehrhart Theory and Its Synergies, Leipzig, Combinatorial Synergies East, 2025 
