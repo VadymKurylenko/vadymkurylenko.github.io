@@ -13,9 +13,11 @@ permalink: /publications/
 
 ### Preprints
 
-- **Preserving Hodge vectors of lattice polytopes**, with [B.Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast), [https://arxiv.org/abs/2602.20765](https://arxiv.org/abs/2602.20765),  <a href="/assets/files/preserving_hodge_vectors.pdf" target="_blank">(pdf)</a>.
+- **The Euler Stratification for $\mathbb{P}^1 \times \mathbb{P}^1 \times \mathbb{P}^n$**, with [S. Hoşten](https://sites.google.com/view/serkanhostensfsu/home), [E. Neuhaus](https://sites.google.com/view/elkeneuhaus) and [N. Rieke](https://www.iaa.tu-bs.de/nikrieke/), [ArXiv:2603.19184](https://arxiv.org/abs/2603.19184),  <a href="/assets/files/p1p1pn.pdf" target="_blank">(pdf)</a>.
 
-- **Examples of IDP lattice polytopes with non-log-concave $h^*$-vector**, with [J.Hoscheier](https://www.johannes-hofscheier.de/) and [B.Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast),  [arXiv:2505.18896](https://arxiv.org/abs/2505.18896), <a href="/assets/files/IDP.pdf" target="_blank">(pdf)</a>.
+- **Preserving Hodge vectors of lattice polytopes**, with [B. Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast), [arXiv:2602.20765](https://arxiv.org/abs/2602.20765),  <a href="/assets/files/preserving_hodge_vectors.pdf" target="_blank">(pdf)</a>.
+
+- **Examples of IDP lattice polytopes with non-log-concave $h^*$-vector**, with [J. Hoscheier](https://www.johannes-hofscheier.de/) and [B. Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast),  [arXiv:2505.18896](https://arxiv.org/abs/2505.18896), <a href="/assets/files/IDP.pdf" target="_blank">(pdf)</a>.
 
 
 ### Talks

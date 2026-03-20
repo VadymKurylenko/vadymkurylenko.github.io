@@ -9,6 +9,8 @@ Just to keep a list
 
 ## 2026
 
+
+- Young Researchers Conference on Combinatorial Synergies, Berlin
 - 3rd MPI (Dresden + Leipzig) Day, Leipzig
 - Recent Developments on Lattice Polytopes, Leipzig
 
