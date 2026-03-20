@@ -17,7 +17,7 @@ permalink: /publications/
 
 - **Preserving Hodge vectors of lattice polytopes**, with [B. Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast), [arXiv:2602.20765](https://arxiv.org/abs/2602.20765),  <a href="/assets/files/preserving_hodge_vectors.pdf" target="_blank">(pdf)</a>.
 
-- **Examples of IDP lattice polytopes with non-log-concave $h^*$-vector**, with [J. Hoscheier](https://www.johannes-hofscheier.de/) and [B. Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast),  [arXiv:2505.18896](https://arxiv.org/abs/2505.18896), <a href="/assets/files/IDP.pdf" target="_blank">(pdf)</a>.
+- **Examples of IDP lattice polytopes with non-log-concave $h^*$-vector**, with [J. Hofscheier](https://www.johannes-hofscheier.de/) and [B. Nill](https://www.ovgu.de/Prof_+Nill-p-70250.html?rewrite_engine=fast),  [arXiv:2505.18896](https://arxiv.org/abs/2505.18896), <a href="/assets/files/IDP.pdf" target="_blank">(pdf)</a>.
 
 
 ### Talks
