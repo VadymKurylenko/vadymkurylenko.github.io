@@ -22,6 +22,8 @@ permalink: /publications/
 
 ### Talks
 
+- Preserving Hodge Vectors of Lattice Polytopes, Leipzig, Seminar on Nonlinear Algebra, 2026
+
 - Thin Lattice Simplices, Freiberg, Ukrainian Summer School in Combinarotics, 2025
 
 - Thin Lattice Simplices, Cottbus, Modern Perspectives on Geometry of Numbers, 2025
